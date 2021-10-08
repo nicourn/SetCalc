@@ -1,6 +1,7 @@
 import types
 import string
 import re
+import sys
 
 def add(a: list, b: list):  # 2
     return a + b
@@ -57,7 +58,6 @@ def procedure_handline(handlered_line: list) -> list:
                         elif (order[proc])[0] == 2:
                             global_sets[index] = order[proc][1](global_sets[handlered_line[i - 1]], global_sets[handlered_line[i + 1]])
                             handlered_line = handlered_line[:i - 1] + [index] + handlered_line[i + 2:]         
-                            print(handlered_line)
                         temp_calc += 1
                         br = True
                         break
@@ -68,7 +68,7 @@ def procedure_handline(handlered_line: list) -> list:
 def get_data(line) -> str:
     if "=" in line:
         data = list(map(lambda x: x.strip(), line.split("=")))
-        global_sets[data[0]] = data[1].split(" ")
+        global_sets[data[0]] = list(set(data[1].split(" ")))
         return f"Set {data[0]} init"
 
     for fn in functions.keys():
@@ -89,5 +89,8 @@ if __name__ == "__main__":
     while True:
         try:
             print(get_data(input(">>> ").strip()))
+        except KeyboardInterrupt:
+            print("\nBye")
+            break
         except:
             print("Have some error")
